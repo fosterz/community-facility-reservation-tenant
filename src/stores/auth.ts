@@ -10,6 +10,9 @@ export const useAuthStore = defineStore('auth', () => {
   const pendingPassword = ref('')
 
   const isAuthenticated = computed(() => !!user.value)
+  const isCommunityUser = computed(() => user.value?.role === 'community_admin' || user.value?.role === 'staff')
+  const isCommunityAdmin = computed(() => user.value?.role === 'community_admin')
+  const isStaff = computed(() => user.value?.role === 'staff')
   const needsPasswordChange = computed(() => user.value?.forcePasswordChange === true)
 
   async function login(mobile: string, password: string) {
@@ -22,8 +25,17 @@ export const useAuthStore = defineStore('auth', () => {
     }
     localStorage.setItem('access_token', data.data.accessToken)
     localStorage.setItem('refresh_token', data.data.refreshToken)
+    localStorage.setItem('user_role', 'member')
     user.value = data.data.user
     return { multiCommunity: false }
+  }
+
+  async function loginCommunityAdmin(email: string, password: string) {
+    const { data } = await api.post('/auth/community/login', { email, password })
+    localStorage.setItem('access_token', data.data.accessToken)
+    localStorage.setItem('refresh_token', data.data.refreshToken)
+    localStorage.setItem('user_role', data.data.user.role)
+    user.value = data.data.user
   }
 
   async function selectCommunity(tenantId: string) {
@@ -34,6 +46,7 @@ export const useAuthStore = defineStore('auth', () => {
     })
     localStorage.setItem('access_token', data.data.accessToken)
     localStorage.setItem('refresh_token', data.data.refreshToken)
+    localStorage.setItem('user_role', 'member')
     user.value = data.data.user
     pendingMobile.value = ''
     pendingPassword.value = ''
@@ -47,7 +60,10 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function fetchProfile() {
     try {
-      const { data } = await api.get('/auth/member/me')
+      const role = localStorage.getItem('user_role')
+      const isCommunity = role === 'community_admin' || role === 'staff'
+      const endpoint = isCommunity ? '/auth/community/me' : '/auth/member/me'
+      const { data } = await api.get(endpoint)
       user.value = data.data
     } catch {
       logout()
@@ -63,10 +79,11 @@ export const useAuthStore = defineStore('auth', () => {
     communities.value = []
     localStorage.removeItem('access_token')
     localStorage.removeItem('refresh_token')
+    localStorage.removeItem('user_role')
   }
 
   return {
-    user, communities, isAuthenticated, needsPasswordChange,
-    login, selectCommunity, changePassword, fetchProfile, restoreFromStorage, logout
+    user, communities, isAuthenticated, isCommunityUser, isCommunityAdmin, isStaff, needsPasswordChange,
+    login, loginCommunityAdmin, selectCommunity, changePassword, fetchProfile, restoreFromStorage, logout
   }
 })

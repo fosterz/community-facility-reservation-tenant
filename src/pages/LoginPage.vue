@@ -5,7 +5,10 @@ import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
 const router = useRouter()
-const form = reactive({ mobile: '', password: '' })
+
+const tab = ref<'member' | 'admin'>('member')
+const memberForm = reactive({ mobile: '', password: '' })
+const adminForm = reactive({ email: '', password: '' })
 const error = ref('')
 const loading = ref(false)
 
@@ -13,11 +16,16 @@ async function handleLogin() {
   error.value = ''
   loading.value = true
   try {
-    const result = await auth.login(form.mobile, form.password)
-    if (result.multiCommunity) {
-      router.push('/select-community')
+    if (tab.value === 'member') {
+      const result = await auth.login(memberForm.mobile, memberForm.password)
+      if (result.multiCommunity) {
+        router.push('/select-community')
+      } else {
+        router.push('/home')
+      }
     } else {
-      router.push('/home')
+      await auth.loginCommunityAdmin(adminForm.email, adminForm.password)
+      router.push('/community/dashboard')
     }
   } catch (err: unknown) {
     const e = err as { response?: { data?: { message?: string; errors?: string[] } } }
@@ -36,16 +44,32 @@ async function handleLogin() {
           🏘️
         </div>
         <h1 class="text-2xl font-bold text-white">Community Facility Reservation</h1>
-        <p class="text-indigo-300 text-sm mt-1">Member Portal</p>
+        <p class="text-indigo-300 text-sm mt-1">Community Portal</p>
       </div>
 
       <div class="bg-white rounded-2xl shadow-2xl p-8">
-        <h2 class="text-lg font-semibold text-slate-900 mb-6">Sign In</h2>
-        <form @submit.prevent="handleLogin" class="space-y-4">
+        <!-- Tabs -->
+        <div class="flex bg-slate-100 rounded-lg p-1 mb-6">
+          <button
+            :class="['flex-1 py-2 text-sm font-medium rounded-md transition-all', tab === 'member' ? 'bg-white shadow text-slate-900' : 'text-slate-500 hover:text-slate-700']"
+            @click="tab = 'member'"
+          >
+            Member
+          </button>
+          <button
+            :class="['flex-1 py-2 text-sm font-medium rounded-md transition-all', tab === 'admin' ? 'bg-white shadow text-slate-900' : 'text-slate-500 hover:text-slate-700']"
+            @click="tab = 'admin'"
+          >
+            Admin / Staff
+          </button>
+        </div>
+
+        <!-- Member login -->
+        <form v-if="tab === 'member'" @submit.prevent="handleLogin" class="space-y-4">
           <div class="flex flex-col gap-1">
             <label class="text-sm font-medium text-slate-700">Mobile Number</label>
             <input
-              v-model="form.mobile"
+              v-model="memberForm.mobile"
               type="tel"
               placeholder="9876543210"
               inputmode="numeric"
@@ -55,7 +79,7 @@ async function handleLogin() {
           <div class="flex flex-col gap-1">
             <label class="text-sm font-medium text-slate-700">Password</label>
             <input
-              v-model="form.password"
+              v-model="memberForm.password"
               type="password"
               placeholder="••••••••"
               class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"
@@ -76,7 +100,42 @@ async function handleLogin() {
           </button>
         </form>
 
-        <div class="mt-6 pt-6 border-t border-slate-100 text-center">
+        <!-- Admin / staff login -->
+        <form v-else @submit.prevent="handleLogin" class="space-y-4">
+          <div class="flex flex-col gap-1">
+            <label class="text-sm font-medium text-slate-700">Email</label>
+            <input
+              v-model="adminForm.email"
+              type="email"
+              placeholder="admin@community.com"
+              class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="text-sm font-medium text-slate-700">Password</label>
+            <input
+              v-model="adminForm.password"
+              type="password"
+              placeholder="••••••••"
+              class="w-full px-3 py-2.5 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"
+            />
+          </div>
+
+          <div v-if="error" class="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg px-4 py-3">
+            {{ error }}
+          </div>
+
+          <button
+            type="submit"
+            :disabled="loading"
+            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+          >
+            <span v-if="loading" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            Sign In
+          </button>
+        </form>
+
+        <div v-if="tab === 'member'" class="mt-6 pt-6 border-t border-slate-100 text-center">
           <p class="text-sm text-slate-500">Not a member yet?</p>
           <RouterLink to="/discover" class="text-sm text-indigo-600 font-medium hover:text-indigo-800">
             Find your community →
