@@ -29,6 +29,7 @@ const JoinRequestsPage = () => import('@/pages/community/JoinRequestsPage.vue')
 const StaffPage = () => import('@/pages/community/StaffPage.vue')
 const ReportsPage = () => import('@/pages/community/ReportsPage.vue')
 const SettingsPage = () => import('@/pages/community/SettingsPage.vue')
+const BuildingsPage = () => import('@/pages/community/BuildingsPage.vue')
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -74,6 +75,7 @@ export const router = createRouter({
         { path: 'join-requests', component: JoinRequestsPage },
         { path: 'staff', component: StaffPage },
         { path: 'reports', component: ReportsPage },
+        { path: 'buildings', component: BuildingsPage },
         { path: 'settings', component: SettingsPage },
       ]
     },

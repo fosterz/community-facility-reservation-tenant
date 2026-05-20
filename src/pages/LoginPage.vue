@@ -40,8 +40,8 @@ async function handleLogin() {
   <div class="min-h-screen bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 flex items-center justify-center p-4">
     <div class="w-full max-w-sm">
       <div class="text-center mb-8">
-        <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mx-auto mb-4 backdrop-blur">
-          🏘️
+        <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-white mx-auto mb-4 backdrop-blur">
+          <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg>
         </div>
         <h1 class="text-2xl font-bold text-white">Community Facility Reservation</h1>
         <p class="text-indigo-300 text-sm mt-1">Community Portal</p>

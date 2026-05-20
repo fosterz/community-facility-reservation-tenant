@@ -37,7 +37,9 @@ async function submit() {
     <div class="w-full max-w-sm">
       <div class="bg-white rounded-2xl shadow-lg p-8">
         <div class="text-center mb-6">
-          <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3">🔑</div>
+          <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-amber-600 mx-auto mb-3">
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" /></svg>
+          </div>
           <h2 class="text-xl font-bold text-slate-900">Set New Password</h2>
           <p class="text-sm text-slate-500 mt-1">Your password was reset by an admin. Please set a new one to continue.</p>
         </div>

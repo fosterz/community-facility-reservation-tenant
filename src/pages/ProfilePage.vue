@@ -75,7 +75,10 @@ function logout() {
         class="w-full px-4 py-3 flex items-center justify-between text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors rounded-xl"
         @click="changingPassword = !changingPassword"
       >
-        <span>🔑 Change Password</span>
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" /></svg>
+          Change Password
+        </span>
         <span class="text-slate-400">{{ changingPassword ? '▲' : '▼' }}</span>
       </button>
       <div v-if="changingPassword" class="px-4 pb-4 space-y-3">

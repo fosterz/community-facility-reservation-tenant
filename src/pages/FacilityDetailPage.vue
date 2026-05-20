@@ -75,7 +75,7 @@ async function confirmBooking() {
 
 // Advance date selector options
 const dateOptions = computed(() => {
-  const days = facility.value?.bookingConfig.advanceBookingDays ?? 7
+  const days = facility.value?.bookingConfig.advanceBookingMaxDays ?? 7
   const opts = []
   for (let i = 0; i < days; i++) {
     const d = new Date()
@@ -110,8 +110,8 @@ function formatDateLabel(d: string) {
 
     <template v-else-if="facility">
       <!-- Facility header -->
-      <div class="bg-gradient-to-br from-indigo-100 to-slate-100 rounded-2xl h-36 flex items-center justify-center text-5xl mb-4">
-        🏢
+      <div class="bg-gradient-to-br from-indigo-100 to-slate-100 rounded-2xl h-36 flex items-center justify-center text-indigo-400 mb-4">
+        <svg class="w-14 h-14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg>
       </div>
       <h1 class="text-xl font-bold text-slate-900">{{ facility.name }}</h1>
       <p class="text-sm text-slate-500">{{ facility.category }} · Capacity {{ facility.capacity }}</p>
@@ -124,7 +124,9 @@ function formatDateLabel(d: string) {
 
       <!-- Booking success -->
       <div v-if="bookingSuccess" class="mt-6 bg-emerald-50 border border-emerald-200 rounded-xl p-5 text-center">
-        <p class="text-3xl mb-2">✅</p>
+        <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mx-auto mb-2">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        </div>
         <p class="font-semibold text-emerald-700">Booking Confirmed!</p>
         <p class="text-sm text-emerald-600">Redirecting to your bookings...</p>
       </div>

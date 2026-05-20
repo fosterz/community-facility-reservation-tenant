@@ -54,7 +54,7 @@ export interface Facility {
   }
   bookingConfig: {
     slotDurationMinutes: number
-    advanceBookingDays: number
+    advanceBookingMaxDays: number
     cancellationCutoffHours: number
     maxSlotsPerBooking: number
   }

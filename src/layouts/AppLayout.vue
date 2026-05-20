@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import AppIcon from '@/components/ui/AppIcon.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
 
 const navItems = [
-  { label: 'Home', path: '/home', icon: '🏠' },
-  { label: 'Facilities', path: '/facilities', icon: '🏢' },
-  { label: 'Bookings', path: '/bookings', icon: '📅' },
-  { label: 'Notifications', path: '/notifications', icon: '🔔' },
-  { label: 'Profile', path: '/profile', icon: '👤' },
+  { label: 'Home', path: '/home', icon: 'home' },
+  { label: 'Facilities', path: '/facilities', icon: 'building-office' },
+  { label: 'Bookings', path: '/bookings', icon: 'calendar' },
+  { label: 'Notifications', path: '/notifications', icon: 'bell' },
+  { label: 'Profile', path: '/profile', icon: 'user-circle' },
 ]
 
 function logout() {
@@ -50,10 +51,10 @@ function logout() {
             'flex-1 flex flex-col items-center gap-0.5 py-2 text-xs transition-colors',
             $route.path.startsWith(item.path)
               ? 'text-indigo-600'
-              : 'text-slate-400 hover:text-slate-600'
+              : 'text-slate-400 hover:text-slate-600',
           ]"
         >
-          <span class="text-xl leading-none">{{ item.icon }}</span>
+          <AppIcon :name="item.icon" />
           <span>{{ item.label }}</span>
         </RouterLink>
       </div>

@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { api } from '@/lib/api'
 import type { Notification } from '@/types'
+import AppIcon from '@/components/ui/AppIcon.vue'
 
 const notifications = ref<Notification[]>([])
 const loading = ref(true)
@@ -20,7 +21,7 @@ function formatDate(d: string) {
 }
 
 const typeIcon: Record<string, string> = {
-  booking: '📅', payment: '💳', announcement: '📣', waitlist: '⏳', system: '🔔'
+  booking: 'calendar', payment: 'credit-card', announcement: 'megaphone', waitlist: 'clock', system: 'bell'
 }
 </script>
 
@@ -41,7 +42,7 @@ const typeIcon: Record<string, string> = {
         :class="['bg-white border rounded-xl p-4', n.isRead ? 'border-slate-200' : 'border-indigo-200 bg-indigo-50/30']"
       >
         <div class="flex items-start gap-3">
-          <span class="text-xl flex-shrink-0 mt-0.5">{{ typeIcon[n.type] ?? '🔔' }}</span>
+          <span class="flex-shrink-0 mt-0.5 text-slate-400"><AppIcon :name="typeIcon[n.type] ?? 'bell'" /></span>
           <div class="flex-1 min-w-0">
             <p :class="['text-sm', n.isRead ? 'text-slate-700' : 'font-semibold text-slate-900']">{{ n.title }}</p>
             <p class="text-xs text-slate-500 mt-0.5">{{ n.body }}</p>

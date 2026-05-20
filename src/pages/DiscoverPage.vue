@@ -78,8 +78,9 @@ onMounted(discover)
       <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
         <input v-model="search" type="search" placeholder="Search by community name..." class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-100" />
         <div class="flex gap-2">
-          <button class="flex-1 text-sm text-indigo-600 border border-indigo-200 rounded-lg py-2 hover:bg-indigo-50 transition-colors" @click="useMyLocation">
-            📍 Use My Location
+          <button class="flex-1 text-sm text-indigo-600 border border-indigo-200 rounded-lg py-2 hover:bg-indigo-50 transition-colors flex items-center justify-center gap-1.5" @click="useMyLocation">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            Use My Location
           </button>
           <button class="flex-1 bg-indigo-600 text-white text-sm rounded-lg py-2 hover:bg-indigo-700 transition-colors" @click="discover">
             Search
@@ -91,7 +92,7 @@ onMounted(discover)
 
       <!-- Success message -->
       <div v-if="submitSuccess" class="bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm rounded-xl px-4 py-3">
-        ✅ Join request submitted! The community admin will review it and contact you.
+        Join request submitted! The community admin will review it and contact you.
       </div>
 
       <!-- Communities list -->
